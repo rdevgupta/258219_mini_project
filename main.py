@@ -1,15 +1,46 @@
+#function for adding data of the employee to the file
 def AddData():
     print("Enter the Following details about the employee please: ")
     sfid = input("Enter the SFID of Employee: \n")
+    # #seperate file containing sfid only for ease in searching a particular employee
+    # f = open("EmpSFID's.txt", "at")
+    # f.write(sfid+"\n")
+    # f.close()
     name = input("Enter the name of Employee: \n")
     email = input("Enter email id: \n")
     designation = input("Position in the company: \n")
     phno = input("Enter Phone number: \n")
-    file.write(sfid+"   "+name+"    "+email+"   "+designation+"    "+phno+"\n")
+    #main data file containing all the data of employee
+    file = open("EmployeeData.txt", "at")
+    file.write(sfid+"   "+name+"     "+email+"             "+designation+"             "+phno+"\n")
+    file.close()
     print("Data added successfully!....")
 
+#function to display the data from the file
+def ViewData():
+    print("SFID     NAME                EMAIL                      DESIGNATION          PHNO")
+    file = open("EmployeeData.txt", 'r')
+    content = file.read()
+    print(content)
+    file.close()
 
-file = open("EmployeeData.txt", "at")
+#search the employee using his/her sfid
+def SearchEmployee(sfid):
+    file = open("EmployeeData.txt", "r")
+    content = file.readlines()
+    flag = 0
+    for line in content:
+        if line[0:6] == sfid:
+            flag = 1
+            print("SFID     NAME                EMAIL                      DESIGNATION          PHNO")
+            print(line)
+    if flag == 0:
+        print("ERROR: Employee not Found with the entered sfid!")
+    file.close()
+
+    
+#main driver code or menu of the system
+
 print('''
 ********** Welcome to L&T Employee Management Service **********
 
@@ -17,9 +48,11 @@ print('''
 
                           1. ADD DATA    
 
-                          2. VIEW DATA     
+                          2. VIEW DATA
 
-                          3. EXIT                          ''')
+                          3. SEARCH EMPLOYEE     
+
+                          4. EXIT                          ''')
 
 choice = int(input("What you want to do with database, make a choice: "))
 
@@ -29,14 +62,15 @@ while choice != 0:
             AddData()
             choice = int(input("Want to add Another Entry: 1 for yes and 0 for no\n"))
     elif choice == 2:
-        print("Display Function called")
-        file = open("EmployeeData.txt", 'r')
-        content = file.read()
-        print(content)
+        print("Here is the data of all the employess: ")
+        ViewData()
     elif choice == 3:
-        print("Exit Function Called")
+        print("Enter the SFID of the employee You want to search: ")
+        sfid_str = input()
+        SearchEmployee(sfid_str)
+    elif choice == 4:
+        print("Thankyou See You Soon.....Buddy!")
         exit()
     else:
         print("Invalid Choice")
     choice = int(input("Want to perform another operation: if yes then choose from the menu\n"))
-file.close()
