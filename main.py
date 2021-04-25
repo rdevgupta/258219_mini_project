@@ -39,6 +39,14 @@ def SearchEmployee(sfid):
 def DeleteEmployee(sfid):
     file = open("EmployeeData.txt", "r")
     content = file.readlines()
+    flag = 0
+    for line in content:
+        if line[0:6] == sfid:
+            flag = 1
+    if flag == 0:
+        print("ERROR: Employee not Found with the entered sfid!")
+    else:
+        print("Data deleted Successfully!....\n")
     file.close()
     
     new_file = open("EmployeeData.txt","w")
@@ -88,11 +96,9 @@ while choice != 0:
         sfid_str = input()
         SearchEmployee(sfid_str)
     elif choice == 4:
-        # delete entry of employee
         print("Enter the SFID of the employee whose data to be deleted")
         sfid_del = input()
         DeleteEmployee(sfid_del)
-        print("Data deleted Successfully!....\n")
     elif choice == 5:
         print("Entire data will be lost forever.... are you sure to do this? 'y' for yes and 'n' for no: \n")
         confirmation = input()
