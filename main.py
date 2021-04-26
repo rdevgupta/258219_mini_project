@@ -62,6 +62,25 @@ def DeleteData():
         os.remove("EmployeeData.txt")
     else:
         print("The file does not exist")
+
+#To modify data of an employee first we have to delete the old data and then add the new data
+def ModifyEmployee(sfid):
+    print("Now the old data will be deleted and you can enter updated details.")
+    file = open("EmployeeData.txt", "r")
+    content = file.readlines()
+    flag = 0
+    for line in content:
+        if line[0:6] == sfid:
+            flag = 1
+    if flag == 0:
+        print("ERROR: Employee not Found with the entered sfid!")
+    else:
+        DeleteEmployee(sfid)
+        print("Modified Details: ")
+        AddData()
+    file.close()
+
+
 #main driver code or menu of the system
 
 print('''
@@ -79,7 +98,9 @@ print('''
 
                           5. DELETE ENTIRE DATA
 
-                          6. EXIT                          ''')
+                          6. MODIFY AN EMPLOYEE
+
+                          7. EXIT                          ''')
 
 choice = int(input("What you want to do with database, make a choice: "))
 
@@ -88,17 +109,21 @@ while choice != 0:
         while(choice == 1):
             AddData()
             choice = int(input("Want to add Another Entry: 1 for yes and 0 for no\n"))
+
     elif choice == 2:
         print("Here is the data of all the employess: ")
         ViewData()
+
     elif choice == 3:
         print("Enter the SFID of the employee You want to search: ")
         sfid_str = input()
         SearchEmployee(sfid_str)
+
     elif choice == 4:
         print("Enter the SFID of the employee whose data to be deleted")
         sfid_del = input()
         DeleteEmployee(sfid_del)
+
     elif choice == 5:
         print("Entire data will be lost forever.... are you sure to do this? 'y' for yes and 'n' for no: \n")
         confirmation = input()
@@ -106,9 +131,16 @@ while choice != 0:
             DeleteData()
         else:
             print("Okay! Data not deleted...")
+
     elif choice == 6:
+        print("Enter the SFID of the employee whose data to be modified: ")
+        sfid_mod = input()
+        ModifyEmployee(sfid_mod)
+
+    elif choice == 7:
         print("Thankyou See You Soon.....Buddy!")
         exit()
+
     else:
         print("Invalid Choice")
     choice = int(input("Want to perform another operation: if yes then choose from the menu\n"))
